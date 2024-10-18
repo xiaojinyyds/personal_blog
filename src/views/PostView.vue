@@ -1,13 +1,20 @@
 <template>
   <div>
-    <div v-for="item in posts" :key="item.id">
-      <h2>{{ item.title }}</h2>
-      <p>{{ item.content }}</p>
-    </div>
+    <el-container>
+      <header-components></header-components>
+      <el-main>
+        <div v-for="item in posts" :key="item.id">
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.content }}</p>
+        </div>
+      </el-main>
+      <el-footer>Footer</el-footer>
+    </el-container>
   </div>
 </template>
 
 <script>
+import HeaderComponents from '@/components/HeaderComponents.vue'
 export default {
   data () {
     return {
@@ -25,6 +32,9 @@ export default {
         }
       ]
     }
+  },
+  components: {
+    HeaderComponents
   },
   created () {}
 }
