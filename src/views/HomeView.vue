@@ -13,25 +13,18 @@
             <el-main
               ><h2>精选文章</h2>
               <ul>
-                <li>
-                  <img src="../assets/Java/java1.webp" alt="" />
-                  <a href="#">详细讲解Java中的注解与反射</a>
-                  <p>
-                    注解和反射是 Java
-                    中非常强大的特性，它们可以帮助开发人员实现很多高级功能。
-                    但是，使用反射也有一些缺点，如性能开销较大、代码可读性较差等，
-                    因此应该谨慎使用。
-                  </p>
-                </li>
-                <li>
-                  <img src="../assets/FrontEnd/Vue1.webp" alt="" />
-                  <a href="#">与Vue2相比Vue3的优缺点</a>
-                  <p>这是文章 2 的简介。</p>
-                </li>
-                <li>
-                  <img src="../assets/Algorithm/dp.webp" alt="" />
-                  <a href="#">动态规划（从入门到精通）</a>
-                  <p>这是文章 3 的简介。</p>
+                <li
+                  v-for="item in Notelist"
+                  :key="item.id"
+                  @click="$router.push(item.detail)"
+                >
+                  <img :src="item.img" alt="" />
+                  <a href="#">{{ item.name }}</a>
+                  <p v-html="formattedNote(item.note)"></p>
+
+                  <span class="iconfont">&#xe61d;10</span>
+                  <span class="iconfont">&#xe666;20</span>
+                  <span class="iconfont">&#xe633;30</span>
                 </li>
               </ul></el-main
             >
@@ -45,7 +38,6 @@
 </template>
 <script>
 import HeaderComponents from '@/components/HeaderComponents.vue'
-
 export default {
   data () {
     return {
@@ -108,14 +100,52 @@ export default {
           note: '算法',
           numbers: 35
         }
-      ]
+      ],
+      Notelist: [
+        {
+          id: 1,
+          name: '详解Java中的注解与反射',
+          img: '../assets/Java/java1.png',
+          note: '注解和反射是 Java中非常强大的特性，它们可以帮助开发人员实现很多高级功能。但是，使用反射也有一些缺点，如性能开销较大、代码可读性较差等，因此应该谨慎使用。',
+          detail: '/note/java'
+        },
+        {
+          id: 2,
+          name: '与Vue2相比Vue3的新特性',
+          img: '../assets/FrontEnd/vue1.png',
+          note: '与Vue2相比Vue3的新特性有性能提升，更好的性能和更小的体积，更易于维护和扩展。',
+          detail: '/note/frontend'
+        },
+        {
+          id: 3,
+          name: '动态规划（从入门到精通）',
+          img: '../assets/Algorithm/dp.png',
+          note: '动态规划是一种解决问题的思想，它将一个复杂的问题分解成若干个简单的子问题，然后通过求解子问题的最优解来得到原问题的最优解。动态规划的核心思想是将问题分解成若干个子问题，然后通过求解子问题的最优解来得到原问题的最优解。动态规划的核心思想是将问题分解成若干个子问题，然后通过求解子问题的最优解',
+          detail: '/note/Algorithm/dp'
+        }
+      ],
+      imgPath: ''
     }
   },
   created () {},
   components: {
     HeaderComponents
   },
-  methods: {},
+  methods: {
+    formattedNote (note) {
+      if (note.length > 10) {
+        let Part = ''
+        for (let i = 0; i < note.length; i++) {
+          Part += note[i]
+          if (i % 50 === 0 && i !== 0 && i !== note.length - 1) {
+            Part += '<br>'
+          }
+        }
+        return Part
+      }
+      return note
+    }
+  },
   computed: {
     option1 () {
       return {
@@ -175,6 +205,10 @@ export default {
 }
 </script>
 <style scoped>
+@font-face {
+  font-family: 'iconfont';
+  src: url('../assets/icon/iconfont.ttf') format('truetype');
+}
 .el-menu-demo {
   border: none;
   display: flex;
@@ -183,7 +217,7 @@ export default {
 .headerimg {
   width: 100%;
   height: 140px;
-  background: url('../assets/Backgroundm/headerimg.png') no-repeat;
+  background: url('../assets/img/Backgroundm/headerimg.png') no-repeat;
 }
 .paintting {
   height: 400px;
@@ -242,15 +276,21 @@ export default {
 }
 
 .choiceness p {
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
-  margin-top: -30px;
+  margin-top: 30px;
   margin-left: 200px;
   position: absolute;
-  word-wrap: break-word;
-  word-break: break-all;
+  line-height: 1.5; /* 设置行高为 1.5 倍字体大小，可根据需求调整这个值 */
+  text-align: left; /* 确保文本左对齐 */
+  text-indent: 2em; /* 首行缩进两个字符，相对于字体大小，可根据需要调整这个值 */
 }
-
+.choiceness span {
+  left: -180px;
+  margin-left: 30px;
+  position: relative;
+  bottom: -50px;
+}
 .choiceness .el-aside {
   background-color: #d3dce6;
   color: #333;
@@ -263,5 +303,20 @@ export default {
   color: #333;
   text-align: center;
   line-height: 160px;
+}
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 20px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.three_icon {
+  margin-top: 20px;
+  margin-left: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100px;
 }
 </style>
